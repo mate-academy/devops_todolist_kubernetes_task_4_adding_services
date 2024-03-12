@@ -41,3 +41,47 @@ Create a kubernetes manifest for a pod which will containa ToDo app container:
 1. `README.md` file should contain instructions on how to test ToDo application using the service `port-forward` command
 1. `README.md` should contain instruction on how to access an app using a NodePort Service
 1. Create PR with your changes and attach it for validation on a platform.
+
+
+## How to apply all manifests
+Use command:
+```
+kubectl apply -f .infractructure/
+```
+
+## How to test application using the port-forward command
+Use this command:
+```
+kubectl port-forward pod/todoapp 8081:8080 -n todoapp
+```
+Content will appear at: 
+```
+localhost:8081
+```
+
+## How to test application using ClusterIP service DNS from a busybox container
+Use this command to connect a 'busybox' pod
+```
+kubectl -n {namespace} exec -it busybox -- sh
+```
+
+Now we can HHHT GET push to the additional CURL tool:
+```
+curl http://{service-name}.{namespace}.svc.cluster.local
+```
+
+## How to test application using a NodePort Service
+Use this command to see port your nodePorts
+```
+kubectl get svc -n {namespace}
+```
+For testing use address like
+```
+http://{NodeIP}:{NodePort}
+```
+Example:
+```
+http://localhost:30007
+```
+
+Well done!
