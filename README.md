@@ -52,7 +52,7 @@ kubectl apply -f .infractructure/
 ## How to test application using the port-forward command
 Use this command:
 ```
-kubectl port-forward pod/todoapp 8081:8080 -n todoapp
+kubectl port-forward service/{service_name} 8081:80
 ```
 Content will appear at: 
 ```
@@ -67,7 +67,7 @@ kubectl -n {namespace} exec -it busybox -- sh
 
 Now we can HHHT GET push to the additional CURL tool:
 ```
-curl http://{service-name}.{namespace}.svc.cluster.local
+curl http://{service_name}.{namespace}.svc.cluster.local
 ```
 
 ## How to test application using a NodePort Service
