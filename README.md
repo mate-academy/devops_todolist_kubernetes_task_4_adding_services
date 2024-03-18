@@ -48,7 +48,7 @@ kubectl apply -f .infrastructure/
 ```
 ##### To test app using port-forward use
 ```
-kubectl port-forward service/todoapp-service 8081:80 -n todoapp
+kubectl port-forward service/todoapp 8081:80 -n todoapp
 ```
 and check app on http://0.0.0.0:8081/
 
@@ -58,7 +58,7 @@ kubectl -n todoapp exec -it busybox -- sh
 ```
 and run command
 ```
-curl http://todoapp-service.todoapp.svc.cluster.local
+curl http://todoapp.todoapp.svc.cluster.local
 ```
 ##### To test app using NodePort
 get the port of NodePort
