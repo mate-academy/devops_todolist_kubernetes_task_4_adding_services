@@ -66,7 +66,7 @@ First, access a Busybox container in your namespace:
 
 Then, within the container, use curl to request the ToDo application:
 
-curl http://todopp.todoapp.svc.cluster.local
+`curl http://todopp.todoapp.svc.cluster.local`
 
 ##  Testing the Application Using a NodePort Service
 To find the NodePort for your service:

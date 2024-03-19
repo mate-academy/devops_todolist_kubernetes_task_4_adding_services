@@ -3,10 +3,17 @@ kind: Pod
 metadata:
   name: todoapp
   namespace: todoapp
+  labels:
+    app: todoapp
 spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
+    env:
+    - name: PYTHONUNBUFFERED
+      value: "1"
+    - name: SECRET_KEY
+      value: "12345"
     ports:
     - containerPort: 8080
     livenessProbe:
@@ -27,7 +34,7 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: todoapp-2
+  name: todoapp-1
   namespace: todoapp
   labels:
     app: todoapp
@@ -35,6 +42,11 @@ spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
+    env:
+    - name: PYTHONUNBUFFERED
+      value: "1"
+    - name: SECRET_KEY
+      value: "12345"
     ports:
     - containerPort: 8080
     livenessProbe:
