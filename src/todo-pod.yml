@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: todo-app-1
+  labels:
+    app: todolist
+spec:
+  containers:
+  - name: todo-app
+    image: alexhf92/todoapp:3.0.0
+    env:
+    - name: ENV_VAR_1
+      value: value1
+    - name: ENV_VAR_2
+      value: value2
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: todo-app-2
+  labels:
+    app: todolist
+spec:
+  containers:
+  - name: todo-app
+    image: lexhf92/todoapp:3.0.0
+    env:
+    - name: ENV_VAR_1
+      value: value1
+    - name: ENV_VAR_2
+      value: value2
