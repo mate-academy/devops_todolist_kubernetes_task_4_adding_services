@@ -59,8 +59,19 @@ kubectl -n {namespace} exec -it busybox -- sh
 ```
 curl http://{service_name}.{namespace}.svc.cluster.local
 ```
+in this case
+```
+curl http://todoapp.todoapp.svc.cluster.local
+```
 
 ## Test app with a NodePort Service
 ```
 kubectl get svc -n {namespace}
+```
+```
+http://<nodeIP>:<NodePort>
+```
+on localhost
+```
+http://localhost:30000
 ```
