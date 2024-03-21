@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
   - name: todo-app
-    image: alexhf92/todoapp:3.0.0
+    image: ikulyk404/todoapp:3.0.0
     env:
     - name: ENV_VAR_1
       value: value1
@@ -23,7 +23,7 @@ metadata:
 spec:
   containers:
   - name: todo-app
-    image: lexhf92/todoapp:3.0.0
+    image: ikulyk404/todoapp:3.0.0
     env:
     - name: ENV_VAR_1
       value: value1
