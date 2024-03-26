@@ -6,7 +6,7 @@ metadata:
     app: todolist
 spec:
   containers:
-  - name: todo-app
+  - name: todoapp
     image: ikulyk404/todoapp:3.0.0
     env:
     - name: PYTHONUNBUFFERED
@@ -31,7 +31,7 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: todo-app-2
+  name: todoapp-2
   labels:
     app: todolist
 spec:
