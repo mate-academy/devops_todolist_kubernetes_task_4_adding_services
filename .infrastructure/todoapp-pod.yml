@@ -4,7 +4,7 @@ metadata:
   name: todoapp
   namespace: todoapp
   labels:
-    app: todolist
+    app: todoapp
 spec:
   containers:
   - name: todoapp
@@ -35,7 +35,7 @@ metadata:
   name: todoapp-1
   namespace: todoapp
   labels:
-    app: todolist
+    app: todoapp
 spec:
   containers:
   - name: todoapp
