@@ -11,7 +11,7 @@ spec:
     image: ikulyk404/todoapp:3.0.0
     env:
     - name: PYTHONUNBUFFERED
-      value: 1
+      value: "1"
     - name: SECRET_KEY
       value: "1234"
     ports:
@@ -42,7 +42,7 @@ spec:
     image: ikulyk404/todoapp:3.0.0
     env:
     - name: PYTHONUNBUFFERED
-      value: 1
+      value: "1"
     - name: SECRET_KEY
       value: "1234"
     ports:
