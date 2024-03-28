@@ -45,7 +45,7 @@ Create a kubernetes manifest for a pod which will containa ToDo app container:
 Create namespace
 
 `kunename create namespace todoapp`
-`kunename create namespace mateapp`
+
 
 For  applaying all  manifests:
 
