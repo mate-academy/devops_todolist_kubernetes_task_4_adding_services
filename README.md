@@ -45,7 +45,7 @@ Create a kubernetes manifest for a pod which will containa ToDo app container:
 
 For  applaying all  manifests:
 
-`kubectl apply -f .infrastructure/`
+`kubectl apply -f ./infrastructure`
 
 ## Testing the Application Using the Port-Forward Command
 
