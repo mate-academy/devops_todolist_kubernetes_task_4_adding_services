@@ -68,6 +68,15 @@ service/todoapp-service created
 - http://localhost:8081
 
 
+## Test app with ClusterIP
+
+kubectl -n {namespace} exec -it busybox -- sh
+
+
+curl http://{service_name}.{namespace}.svc.cluster.local
+
+Our case: => curl http://todoapp.todoapp.svc.cluster.local
+
 
 ## Instructions on how to test ToDo application using cluster Ip service with port-forward command
 
