@@ -14,10 +14,6 @@ spec:
     env:
     - name: PYTHONUNBUFFERED
       value: "1"
-    - name: DJANGO_SETTINGS_MODULE
-      value: myproject.settings
-    - name: DATABASE_URL
-      value: postgres://user:password@host:5432/mydb
     livenessProbe:
       httpGet:
         path: api/health
@@ -49,10 +45,6 @@ spec:
     env:
     - name: PYTHONUNBUFFERED
       value: "1"
-    - name: DJANGO_SETTINGS_MODULE
-      value: myproject.settings
-    - name: DATABASE_URL
-      value: postgres://user:password@host:5432/mydb
     livenessProbe:
       httpGet:
         path: api/health
@@ -65,5 +57,4 @@ spec:
         port: 8080
       initialDelaySeconds: 5
       periodSeconds: 5
-
 
