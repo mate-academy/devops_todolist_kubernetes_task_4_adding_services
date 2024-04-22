@@ -9,6 +9,9 @@ spec:
   containers:
   - name: todoapp-1
     image: yaaszp/todoapp:3.0.0
+    env:
+     - name: PYTHONUNBUFFERED
+       value: 1
     ports:
     - containerPort: 8080
     livenessProbe:
@@ -36,6 +39,9 @@ spec:
   containers:
   - name: todoapp-2
     image: yaaszp/todoapp:3.0.0
+    env:
+     - name: PYTHONUNBUFFERED
+       value: 1
     ports:
     - containerPort: 8080
     livenessProbe:
