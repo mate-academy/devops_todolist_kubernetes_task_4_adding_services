@@ -41,3 +41,57 @@ Create a kubernetes manifest for a pod which will containa ToDo app container:
 1. `README.md` file should contain instructions on how to test ToDo application using the service `port-forward` command
 1. `README.md` should contain instruction on how to access an app using a NodePort Service
 1. Create PR with your changes and attach it for validation on a platform.
+
+
+
+
+
+### Instruction
+
+## Instructions on how to test ToDo application using cluster Ip service with port-forward command
+
+1. start manifest:
+
+ - kubectl apply -f clusterIp.yml
+
+You should got such answer: 
+
+service/todoapp-service created
+
+
+2. Get name of service:
+
+- kubectl get services -o wide
+
+3. Check service:
+
+- kubectl port-forward service/todoapp-service 8081:80 -n todoapp
+
+4. Check on lokalhost:
+
+- http://localhost:8081
+
+
+
+## Instructions on how to test ToDo application using cluster Ip service with port-forward command
+
+1. start manifest:
+
+- kubectl apply -f nodeport.yml
+
+You should got such answer: 
+
+service/todoapp-nodeport-service created
+
+2. Get name of service:
+
+- kubectl get services -o wide
+
+3. Check service:
+
+Externall Access:
+
+http://"nodeIP":30007
+```
+on localhost:
+http://localhost:30007 
