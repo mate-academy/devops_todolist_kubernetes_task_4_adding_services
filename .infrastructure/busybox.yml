@@ -6,11 +6,9 @@ metadata:
 spec:
   containers:
   - name: busybox
-    image: radial/busyboxplus:curl
-    args:
-    - sleep
-    - "1000"
+    image: appropriate/curl
+    command: ["sh", "-c", "while true; do echo hello; sleep 10; done"]
     resources:
       limits:
         cpu: "0.5"
-        memory: "512Mi"
+        memory: "256Mi"
