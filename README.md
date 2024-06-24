@@ -41,3 +41,52 @@ Create a kubernetes manifest for a pod which will containa ToDo app container:
 1. `README.md` file should contain instructions on how to test ToDo application using the service `port-forward` command
 1. `README.md` should contain instruction on how to access an app using a NodePort Service
 1. Create PR with your changes and attach it for validation on a platform.
+
+---
+
+## Apply all manifests
+Commands:
+```bash
+kubectl apply -f .infrastructure/namespace.yml
+```
+```bash
+kubectl apply -f .infrastructure/alpine.yml
+```
+```bash
+kubectl apply -f .infrastructure/todoapp-pod.yml
+```
+```bash
+kubectl apply -f .infrastructure/cluster-ip.yml
+```
+```bash
+kubectl apply -f .infrastructure/nodeport.yml
+```
+
+## To test application using ClusterIP service DNS from an Alpine container
+Add the 'curl' package to the 'Alpine'
+```bash
+kubectl exec -it alpine -n todoapp -- apk --update add curl
+```
+Connect to 'Alpine'
+```bash
+kubectl exec -it alpine -n todoapp -- sh
+```
+Use commands: 
+```bash
+curl http://clusteripsvc.todoapp.svc.cluster.local/api/liveness/
+```
+```bash
+curl http://clusteripsvc.todoapp.svc.cluster.local/api/readiness/
+```
+
+## To test application using the port-forward command
+Command:
+```
+kubectl port-forward service/{service_name} 8080:80 -n todoapp
+```
+You can access the ToDo app in your browser at [http://localhost:8080](http://localhost:8080/) 
+
+
+## To access application using a NodePort Service
+
+You can access the ToDo app in your browser at [http://localhost:30001](http://localhost:30001/) 
