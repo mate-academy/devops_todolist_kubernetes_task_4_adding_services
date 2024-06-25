@@ -1,43 +1,84 @@
-# Django ToDo list
+For using amazing todo application through DNS in ClusterIP service follow instruction below
 
-This is a todo list web application with basic features of most web apps, i.e., accounts/login, API, and interactive UI. To do this task, you will need:
-
-- CSS | [Skeleton](http://getskeleton.com/)
-- JS  | [jQuery](https://jquery.com/)
-
-## Explore
-
-Try it out by installing the requirements (the following commands work only with Python 3.8 and higher, due to Django 4):
+1. Create namespace for application
 
 ```
-pip install -r requirements.txt
+kubectl apply -f .infrastructure/namespace.yml
 ```
 
-Create a database schema:
+2. Update default config namespace for more comfortable running application
 
 ```
-python manage.py migrate
+kubectl config set-context --current --namespace=todoapp
 ```
 
-And then start the server (default is http://localhost:8000):
+3. Create 2 pods for balancing traffic of application
 
 ```
-python manage.py runserver
+kubectl apply -f .infrastructure/todoapp-pod.yml
 ```
 
-Now you can browse the [API](http://localhost:8000/api/) or start on the [landing page](http://localhost:8000/).
+4. Create pod with curl to test ClusterIP service
 
-## Task
+```
+kubectl apply -f .infrastructure/curl.yml
+```
 
-Create a kubernetes manifest for a pod which will containa ToDo app container:
+5. Check for all successfully created pods
 
-1. Fork this repository.
-1. Modify pod manifest to deploy a second same pod with a different name.
-1. Add labels to pods “app: todolist”
-1. Create a manifest for a ClusterIP service, which should balance traffic between two pods
-1. Create a manifest for a NodePort service, which should expose an application on a Node Level
-1. Set all env values for the container from pod’s manifest
-1. `README.md` should contain instructions on how to test an app by calling a ClusterIP service DNS from a busybox container
-1. `README.md` file should contain instructions on how to test ToDo application using the service `port-forward` command
-1. `README.md` should contain instruction on how to access an app using a NodePort Service
-1. Create PR with your changes and attach it for validation on a platform.
+```
+kubectl get pods -o wide
+```
+
+6. Create ClusterIP service
+
+```
+kubectl apply -f .infrastructure/clusterIp.yml
+```
+
+7. Check for successfully created ClusterIP service
+
+```
+kubectl get svc -o wide
+```
+
+8. Run interactive shell in curl pod by running command
+
+```
+kubectl exec -it curl -- sh
+```
+
+9. Check for successfully response after request inside cluster through ClusterIP service in curl container
+
+```
+curl http://todoapp-service.todoapp.svc.cluster.local
+```
+
+10. Run exit
+
+```
+exit
+```
+
+11. Also you could test application after running port-forwarding setup
+
+```
+kubectl port-forward service/todoapp-service 8081:80
+```
+
+Now you can enjoy fantastic todo application on http://localhost:8081/ or http://127.0.0.1:8081/
+Run Ctrl+C to stop port-forwarding
+
+12. Also for using NodePort service create it by running command
+
+```
+kubectl apply -f .infrastructure/nodeport.yml
+```
+
+13. Check for successfully created NodePort service
+
+```
+kubectl get svc -o wide
+```
+
+Now you can enjoy fantastic todo application on http://localhost:30007/ or http://127.0.0.1:30007/
