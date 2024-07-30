@@ -3,7 +3,7 @@
 This is a todo list web application with basic features of most web apps, i.e., accounts/login, API, and interactive UI. To do this task, you will need:
 
 - CSS | [Skeleton](http://getskeleton.com/)
-- JS  | [jQuery](https://jquery.com/)
+- JS | [jQuery](https://jquery.com/)
 
 ## Explore
 
@@ -41,3 +41,25 @@ Create a kubernetes manifest for a pod which will containa ToDo app container:
 1. `README.md` file should contain instructions on how to test ToDo application using the service `port-forward` command
 1. `README.md` should contain instruction on how to access an app using a NodePort Service
 1. Create PR with your changes and attach it for validation on a platform.
+
+kubectl apply -f .\.infrastructure\namespace.yml
+
+kubectl apply -f .\.infrastructure\todoapp-pod.yml
+
+kubectl apply -f .\.infrastructure\busybox.yml
+
+kubectl apply -f .\.infrastructure\clusterip.yml
+
+kubectl apply -f .\.infrastructure\nodeport.yml
+
+kubectl -n todoapp exec -it busybox -- sh
+
+curl http://todoappclusterip.todoapp.svc.cluster.local # connection refused here
+
+kubectl port-forward service/todoappclusterip 8001:80 -n todoapp # command part does not work
+
+acces your webapp using the link http://localhost:8000/
+
+acces your website using the link the link http://localhost:30004/ # Error: socket hang up
+
+kubectl delete namespace todoapp cleanup
