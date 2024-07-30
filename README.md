@@ -60,6 +60,6 @@ kubectl port-forward service/todoappclusterip 8001:80 -n todoapp # command part 
 
 acces your webapp using the link http://localhost:8000/
 
-acces your website using the link the link http://localhost:30004/ # Error: socket hang up
+acces your website using the link the link http://localhost:30004/ # Error: socket hang up from postman and curl: (52) Empty reply from server
 
 kubectl delete namespace todoapp cleanup
