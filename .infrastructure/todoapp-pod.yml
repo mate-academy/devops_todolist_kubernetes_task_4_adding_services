@@ -4,7 +4,7 @@ metadata:
   name: todoapp
   namespace: todoapp
   labels:
-    app: todolist
+    app: todoapp
 spec:
   containers:
     - name: todoapp
@@ -19,7 +19,7 @@ spec:
         periodSeconds: 5
       readinessProbe:
         httpGet:
-          path: api/ready
+          path: api/readiness
           port: 8000
         initialDelaySeconds: 5
         periodSeconds: 5
@@ -30,7 +30,7 @@ metadata:
   name: todoapp-1
   namespace: todoapp
   labels:
-    app: todolist
+    app: todoapp
 spec:
   containers:
     - name: todoapp
@@ -45,7 +45,7 @@ spec:
         periodSeconds: 5
       readinessProbe:
         httpGet:
-          path: api/ready
+          path: api/readiness
           port: 8000
         initialDelaySeconds: 5
         periodSeconds: 5

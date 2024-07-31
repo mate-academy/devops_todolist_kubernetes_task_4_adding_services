@@ -42,24 +42,23 @@ Create a kubernetes manifest for a pod which will containa ToDo app container:
 1. `README.md` should contain instruction on how to access an app using a NodePort Service
 1. Create PR with your changes and attach it for validation on a platform.
 
-kubectl apply -f .\.infrastructure\namespace.yml
+create namespace `kubectl apply -f .\.infrastructure\namespace.yml`
 
-kubectl apply -f .\.infrastructure\todoapp-pod.yml
+start pods `kubectl apply -f .\.infrastructure\todoapp-pod.yml`
 
-kubectl apply -f .\.infrastructure\busybox.yml
+start busybox pod `kubectl apply -f .\.infrastructure\busybox.yml`
 
-kubectl apply -f .\.infrastructure\clusterip.yml
+start cluster ip service `kubectl apply -f .\.infrastructure\clusterip.yml`
 
-kubectl apply -f .\.infrastructure\nodeport.yml
+start node port service `kubectl apply -f .\.infrastructure\nodeport.yml`
 
-kubectl -n todoapp exec -it busybox -- sh
+enter busybox container `kubectl -n todoapp exec -it busybox -- sh`
 
-curl http://todoappclusterip.todoapp.svc.cluster.local # connection refused here
+to check connection to your cluster ip from busybox run `curl http://todoappclusterip.todoapp.svc.cluster.local`
 
-kubectl port-forward service/todoappclusterip 8001:80 -n todoapp # command part does not work
+to check connection using port forwarding run `kubectl port-forward service/todoappclusterip 8001:80 -n todoapp`
 
-acces your webapp using the link http://localhost:8000/
+while port forwarding is running in background you can acces your webapp using the link http://localhost:8001/
 
-acces your website using the link the link http://localhost:30004/ # Error: socket hang up from postman and curl: (52) Empty reply from server
-
-kubectl delete namespace todoapp cleanup
+to check acces from nodeport use link http://localhost:30004/
+to do the cleanup run `kubectl delete namespace todoapp cleanup`
