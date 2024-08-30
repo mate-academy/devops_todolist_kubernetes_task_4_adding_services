@@ -1,43 +1,20 @@
 # Django ToDo list
 
-This is a todo list web application with basic features of most web apps, i.e., accounts/login, API, and interactive UI. To do this task, you will need:
+# Before testing you need to apply all manifests
+1. Get into the directory `.infrastructure` using `cd` command
+2. Use `kubectl apply -f namespace.yml`
+3. Use `kubectl apply -f busybox.yml`
+4. Use `kubectl apply -f todoapp-pod.yml`
+5. Use `kubectl apply -f cluster-ip.yml`
+6. Use `kubectl apply -f nodeport.yml`
 
-- CSS | [Skeleton](http://getskeleton.com/)
-- JS  | [jQuery](https://jquery.com/)
 
-## Explore
+### Testing the application from a busybox container
+1. Use `kubectl -n mateapp exec -it busybox -- sh`
+2. Write the following command in the window that opens `curl http://todoapp.mateapp.svc.cluster.local`
 
-Try it out by installing the requirements (the following commands work only with Python 3.8 and higher, due to Django 4):
+### Testing the application using `port-forward` command
+1. Use `kubectl port-forward service/todoapp 8081:80 -n mateapp`
 
-```
-pip install -r requirements.txt
-```
-
-Create a database schema:
-
-```
-python manage.py migrate
-```
-
-And then start the server (default is http://localhost:8000):
-
-```
-python manage.py runserver
-```
-
-Now you can browse the [API](http://localhost:8000/api/) or start on the [landing page](http://localhost:8000/).
-
-## Task
-
-Create a kubernetes manifest for a pod which will containa ToDo app container:
-
-1. Fork this repository.
-1. Modify pod manifest to deploy a second same pod with a different name.
-1. Add labels to pods “app: todolist”
-1. Create a manifest for a ClusterIP service, which should balance traffic between two pods
-1. Create a manifest for a NodePort service, which should expose an application on a Node Level
-1. Set all env values for the container from pod’s manifest
-1. `README.md` should contain instructions on how to test an app by calling a ClusterIP service DNS from a busybox container
-1. `README.md` file should contain instructions on how to test ToDo application using the service `port-forward` command
-1. `README.md` should contain instruction on how to access an app using a NodePort Service
-1. Create PR with your changes and attach it for validation on a platform.
+### Access the app using a NodePort Service
+1. Open your browser and past: `localhost:30007`
