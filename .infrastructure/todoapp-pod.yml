@@ -11,6 +11,13 @@ spec:
     image: ikulyk404/todoapp:3.0.0
     ports:
     - containerPort: 8080
+    env:
+    - name: ENVIRONMENT
+      value: "production"
+    - name: DEBUG
+      value: "false"
+    - name: API_URL 
+      value: "http://todoapp-clusterip"
     livenessProbe:
       httpGet:
         path: api/health
@@ -38,6 +45,13 @@ spec:
     image: ikulyk404/todoapp:3.0.0
     ports:
     - containerPort: 8080
+    env:
+    - name: ENVIRONMENT
+      value: "production"
+    - name: DEBUG
+      value: "false"
+    - name: API_URL
+      value: "http://todoapp-clusterip"
     livenessProbe:
       httpGet:
         path: api/health
