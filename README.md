@@ -41,3 +41,35 @@ Create a kubernetes manifest for a pod which will containa ToDo app container:
 1. `README.md` file should contain instructions on how to test ToDo application using the service `port-forward` command
 1. `README.md` should contain instruction on how to access an app using a NodePort Service
 1. Create PR with your changes and attach it for validation on a platform.
+
+
+## Testing the Application Using ClusterIP Service DNS from a Busybox Container
+
+To verify that the `ClusterIP` service is correctly routing traffic to the `todoapp` pods, you can use a `busybox` container to test DNS resolution and connectivity.
+
+### Steps:
+
+1. **Deploy a Busybox Pod:**
+   First, deploy a `busybox` pod in the same `todoapp` namespace that will be used to test DNS resolution.
+
+   ```bash
+   kubectl run busybox --image=busybox --restart=Never --namespace=todoapp -- sleep 3600
+   ```
+This command will create a busybox pod that will run for 1 hour (3600 seconds), allowing to execute commands within it.
+
+2. **Execute DNS Resolution Test:** Once the busybox pod is running, you can use it to test the DNS resolution of the ClusterIP service:
+    ```
+    kubectl exec -n todoapp busybox -- nslookup todoapp-clusterip
+    ```
+    You should see an output that resolves the DNS name todoapp-clusterip to the corresponding ClusterIP address.
+
+3. **Test Connectivity to the ToDo Application:**
+After confirming DNS resolution, test the connectivity to the ToDo application using the wget command:
+    ```
+    kubectl exec -n todoapp busybox -- wget -O- todoapp-clusterip
+    ```
+    This command will attempt to access the ToDo application through the ClusterIP service, and you should see the HTML output of the application's homepage if everything is configured correctly.
+4. **Cleanup:** Once you've finished testing, you can delete the busybox pod:
+    ```
+    kubectl delete pod busybox -n todoapp
+    ```
