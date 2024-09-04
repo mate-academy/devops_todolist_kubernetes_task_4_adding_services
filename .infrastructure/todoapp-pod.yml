@@ -14,10 +14,6 @@ spec:
     env:
     - name: ENVIRONMENT
       value: "production"
-    - name: DEBUG
-      value: "false"
-    - name: API_URL 
-      value: "http://todoapp-clusterip"
     livenessProbe:
       httpGet:
         path: api/health
@@ -48,10 +44,6 @@ spec:
     env:
     - name: ENVIRONMENT
       value: "production"
-    - name: DEBUG
-      value: "false"
-    - name: API_URL
-      value: "http://todoapp-clusterip"
     livenessProbe:
       httpGet:
         path: api/health
