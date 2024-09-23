@@ -7,6 +7,8 @@ from lists.models import Todo, TodoList
 from django.http import HttpResponse
 from django.utils import timezone
 import time
+import os
+import requests
 
 startup_time = timezone.now()
 
@@ -74,3 +76,13 @@ def ready(request):
     else:
         # After 30 seconds, return HTTP 200
         return HttpResponse("Readiness OK", content_type="text/plain")
+
+def external_call(request):
+    external_url = os.getenv('EXTERNAL_ENDPOINT')
+    if not external_url:
+        return HttpResponse("EXTERNAL_ENDPOINT environment variable is not defined.", status=500)
+    try:
+        response = requests.get(external_url)
+        return HttpResponse(f"Response from external service: {response.text}", status=response.status_code)
+    except requests.exceptions.RequestException as e:
+        return HttpResponse(f"Failed to call external service: {str(e)}", status=500)

@@ -17,6 +17,8 @@ COPY --from=builder /app .
 
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
+    
+RUN pip install Flask requests
 
 RUN python manage.py migrate
 
