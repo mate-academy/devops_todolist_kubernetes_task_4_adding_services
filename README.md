@@ -1,43 +1,46 @@
-# Django ToDo list
+# Kubernetes TodoApp Deployment
 
-This is a todo list web application with basic features of most web apps, i.e., accounts/login, API, and interactive UI. To do this task, you will need:
+## 1. Apply the manifests to create the namespace, TodoApp pods, and BusyBox pod:
 
-- CSS | [Skeleton](http://getskeleton.com/)
-- JS  | [jQuery](https://jquery.com/)
-
-## Explore
-
-Try it out by installing the requirements (the following commands work only with Python 3.8 and higher, due to Django 4):
-
-```
-pip install -r requirements.txt
+Run the following command to apply all manifests within the ./.infrastructure directory:
+```bash
+kubectl apply -f ./.infrastructure
 ```
 
-Create a database schema:
-
-```
-python manage.py migrate
-```
-
-And then start the server (default is http://localhost:8000):
-
-```
-python manage.py runserver
+Or apply each manifest individually as follows:
+```bash
+kubectl apply -f ./.infrastructure/namespace.yml
+kubectl apply -f ./.infrastructure/clusterip.yml
+kubectl apply -f ./.infrastructure/nodeport.yml
+kubectl apply -f ./.infrastructure/busybox.yml
+kubectl apply -f ./.infrastructure/todoapp-pod.yml
 ```
 
-Now you can browse the [API](http://localhost:8000/api/) or start on the [landing page](http://localhost:8000/).
+## 2. Test the TodoApp using the ClusterIP service:
 
-## Task
+To test the TodoApp via the ClusterIP service, follow these steps:
 
-Create a kubernetes manifest for a pod which will containa ToDo app container:
+1. Access the BusyBox shell:
+```bash
+kubectl -n todoapp exec -it busybox -- sh
+```
 
-1. Fork this repository.
-1. Modify pod manifest to deploy a second same pod with a different name.
-1. Add labels to pods “app: todolist”
-1. Create a manifest for a ClusterIP service, which should balance traffic between two pods
-1. Create a manifest for a NodePort service, which should expose an application on a Node Level
-1. Set all env values for the container from pod’s manifest
-1. `README.md` should contain instructions on how to test an app by calling a ClusterIP service DNS from a busybox container
-1. `README.md` file should contain instructions on how to test ToDo application using the service `port-forward` command
-1. `README.md` should contain instruction on how to access an app using a NodePort Service
-1. Create PR with your changes and attach it for validation on a platform.
+2. Send a curl request to the ClusterIP service DNS:
+```bash
+curl http://todoapp-clusterip.todoapp.svc.cluster.local
+```
+This should return a response from the TodoApp if it’s running correctly.
+
+## 3. Test the TodoApp using port-forwarding:
+
+1. Test the TodoApp locally, use port-forwarding to access the service:
+```bash
+kubectl port-forward service/todoapp-clusterip 8080:80 -n todoapp
+```
+
+2. Open your web browser and test the TodoApp at:
+http://localhost:8080
+
+## 3. Test the TodoApp using the NodePort service in your web browser at:
+
+http://localhost:30007
