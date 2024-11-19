@@ -57,6 +57,10 @@ kubectl -n todoapp exec -it busybox -- sh
 ```
 Send curl request:
 ```
+curl http://todoapp-clusterip.todoapp.svc.cluster.local
+```
+Check port-forwarding request:
+```
 kubectl port-forward service/todoapp-clusterip 8080:80 -n todoapp
 ```
 And link to http://localhost:8080
