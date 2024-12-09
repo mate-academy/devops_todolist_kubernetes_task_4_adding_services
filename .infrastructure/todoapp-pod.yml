@@ -32,7 +32,7 @@ metadata:
   name: todoapp-1
   namespace: todoapp
   labels:
-    app: todolistt
+    app: todolist
 spec:
   containers:
   - name: todoapp
