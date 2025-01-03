@@ -13,4 +13,5 @@ urlpatterns = [
     path("", include(router.urls)),
     path("health", views.health, name="health"),  # API Health check endpoint
     path("ready", views.ready, name="ready"),
+    path("external-call", views.external_call, name="external_call"),
 ]
