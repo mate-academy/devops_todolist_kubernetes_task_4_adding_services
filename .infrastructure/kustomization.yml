@@ -1,0 +1,7 @@
+resources:
+  - namespace.yml
+  - ClusterIP.yml
+  - external.yml
+  - NodePort.yml
+  - busybox.yml
+  - todoapp-pod.yml

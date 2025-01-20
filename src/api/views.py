@@ -1,3 +1,5 @@
+import os
+import requests
 from django.contrib.auth.models import User
 from rest_framework import permissions, viewsets
 
@@ -6,6 +8,7 @@ from lists.models import Todo, TodoList
 
 from django.http import HttpResponse
 from django.utils import timezone
+
 import time
 
 startup_time = timezone.now()
@@ -74,3 +77,25 @@ def ready(request):
     else:
         # After 30 seconds, return HTTP 200
         return HttpResponse("Readiness OK", content_type="text/plain")
+
+
+def external_call(request):
+    external_url = os.getenv('EXTERNAL_ENDPOINT')
+    if not external_url:
+        return create_error_response(
+            "EXTERNAL_ENDPOINT environment variable is not defined.",
+            status_code=500)
+
+    try:
+        response = requests.get(external_url)
+        response.raise_for_status()
+        return HttpResponse(f"Response from external service: {response.text}",
+                        status=response.status_code,
+                        content_type='text/plain')
+    except requests.exceptions.RequestException as e:
+        return create_error_response(
+            f"Failed to call external service: {str(e)}", status_code=500)
+
+
+def create_error_response(message, status_code):
+    return HttpResponse(message, status=status_code, content_type='text/plain')
