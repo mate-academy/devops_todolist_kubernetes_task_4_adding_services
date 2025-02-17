@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: todoapp-node-port-service
+  namespace: todoapp
+spec:
+  selector:
+    app: todoapp
+  ports:
+    - protocol: TCP
+      port: 9999
+      targetPort: 8080
+      nodePort: 30001
+  type: NodePort
