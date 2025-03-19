@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: todo-app-1
+  labels:
+    app: todolist
+spec:
+  containers:
+  - name: todo-container
+    image: vhurna/todoapp:3.0.0
+    env:
+    - name: DB_HOST
+      value: "localhost"
+    - name: DB_PORT
+      value: "5432"
+    - name: DB_USER
+      value: "user"
+    - name: DB_PASSWORD
+      value: "password"
+    ports:
+    - containerPort: 3000
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: todo-app-2
+  labels:
+    app: todolist
+spec:
+  containers:
+  - name: todo-container
+    image: [ваш_образ]
+    env:
+    - name: DB_HOST
+      value: "localhost"
+    - name: DB_PORT
+      value: "5432"
+    - name: DB_USER
+      value: "user"
+    - name: DB_PASSWORD
+      value: "password"
+    ports:
+    - containerPort: 3000
