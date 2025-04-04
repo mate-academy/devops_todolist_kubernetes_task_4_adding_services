@@ -1,0 +1,30 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: todolist-service
+  namespace: todoapp
+spec:
+  selector:
+    app:  todolist
+  type: ClusterIP
+  ports:
+  - name: balancing_port
+    port:  80
+    targetPort:  8080
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name:  todolist-service-external
+  namespace: todoapp
+spec:
+  selector:
+    app:  todolist
+  type:  NodePort
+  ports:
+  - name:  port-for-todolistapp
+    port:  80
+    targetPort:  8080
+    NodePort: 30007
