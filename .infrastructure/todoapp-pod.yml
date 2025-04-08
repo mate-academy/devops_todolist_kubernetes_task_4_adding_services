@@ -3,6 +3,8 @@ kind: Pod
 metadata:
   name: todoapp
   namespace: todoapp
+  labels:
+    app: todolist
 spec:
   containers:
   - name: todoapp
@@ -21,3 +23,8 @@ spec:
         port: 8080
       initialDelaySeconds: 5
       periodSeconds: 5
+    env:
+      - name: NODE_ENV
+        value: "production"
+      - name: PORT
+        value: "8080"
