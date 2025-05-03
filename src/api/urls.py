@@ -1,5 +1,6 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
+from api.views import external_call
 
 from api import views
 
@@ -13,4 +14,5 @@ urlpatterns = [
     path("", include(router.urls)),
     path("health", views.health, name="health"),  # API Health check endpoint
     path("ready", views.ready, name="ready"),
+     path("external-call/", external_call),
 ]
