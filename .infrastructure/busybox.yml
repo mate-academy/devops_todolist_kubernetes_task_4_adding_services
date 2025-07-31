@@ -3,10 +3,15 @@ kind: Pod
 metadata:
   name: busybox
   namespace: todoapp
+  labels:
+    app: todoapp
 spec:
   containers:
   - name: busybox
     image: ikulyk404/busyboxplus:curl
+    env:
+    - name: ENVIRONMENT
+      value: "development"
     args:
     - sleep
     - "1000"
