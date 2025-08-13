@@ -16,6 +16,18 @@ spec:
       value: "1"
     - name: DJANGO_SETTINGS_MODULE
       value: "todoapp.settings"
+    - name: DB_ENGINE
+      value: "django.db.backends.mysql"
+    - name: DB_HOST
+      value: "FVFFM3F5Q05N"
+    - name: DB_PORT
+      value: "3306"
+    - name: DB_NAME
+      value: "tododb"
+    - name: DB_PASSWORD
+      value: "my-secret-pw"
+    - name: DB_USER
+      value: "root"
     livenessProbe:
       httpGet:
         path: api/health
@@ -49,6 +61,18 @@ spec:
       value: "1"
     - name: DJANGO_SETTINGS_MODULE
       value: "todoapp.settings"
+    - name: DB_ENGINE
+      value: "django.db.backends.mysql"
+    - name: DB_HOST
+      value: "FVFFM3F5Q05N"
+    - name: DB_PORT
+      value: "3306"
+    - name: DB_NAME
+      value: "tododb"
+    - name: DB_PASSWORD
+      value: "my-secret-pw"
+    - name: DB_USER
+      value: "root"
     livenessProbe:
       httpGet:
         path: api/health
