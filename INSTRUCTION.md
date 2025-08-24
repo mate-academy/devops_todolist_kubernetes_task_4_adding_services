@@ -1,9 +1,6 @@
 # INSTRUCTION.md
 
-## 1. Deploy manifests
-Усі маніфести знаходяться у папці `.infrastructure`.  
-Щоб створити namespace, pod-и та сервіси — застосуйте:
-
+## 1. Deploy
 ```bash
 kubectl apply -f .infrastructure/namespace.yml
 kubectl apply -f .infrastructure/pod-a.yml
