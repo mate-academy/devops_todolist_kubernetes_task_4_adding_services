@@ -1,6 +1,6 @@
 # INSTRUCTION.md
 
-## 1. Deploy
+## 0) Deploy
 ```bash
 kubectl apply -f .infrastructure/namespace.yml
 kubectl apply -f .infrastructure/pod-a.yml
