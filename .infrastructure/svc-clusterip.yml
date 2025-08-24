@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: todoapp-clusterip
+  namespace: todoapp
+spec:
+  selector:
+    app: todolist        # збиратиме трафік на обидва Pod (а і b)
+  ports:
+    - protocol: TCP
+      port: 8000         # порт сервісу в кластері
+      targetPort: 8000   # порт контейнера
