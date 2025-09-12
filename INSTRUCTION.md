@@ -1,6 +1,6 @@
 ## First of all, we need to apply all namespaces, pods and services. For this, execute next commands:
 ```shell
-    kubectl apply -f .infrastructurenamespace.yml
+    kubectl apply -f .infrastructure/namespace.yml
     kubectl apply -f .infrastructure/busybox.yml -n todoapp
     kubectl apply -f .infrastructure/todoapp-pod.yml -n todoapp
     kubectl apply -f .infrastructure/cluster-ip.yml -n todoapp
@@ -24,4 +24,10 @@
 
 ### And open [localhost at port 8080](http://localhost:8080)
 
-## To test app with nodeport service just open [localhost at port 30007](http://localhost:30007)
+## To test app with nodeport service, check the node ip with:
+```shell
+    kubectl get nodes -o wide
+```
+
+### And open the link in the browser wich must looks like this:
+- http://<node-ip>:<node-port>
