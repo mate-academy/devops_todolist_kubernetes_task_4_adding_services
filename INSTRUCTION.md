@@ -1,6 +1,6 @@
 ## First of all, we need to apply all namespaces, pods and services. For this, execute next commands:
 ```shell
-    kubectl apply -f namespace.yml
+    kubectl apply -f .infrastructurenamespace.yml
     kubectl apply -f .infrastructure/busybox.yml -n todoapp
     kubectl apply -f .infrastructure/todoapp-pod.yml -n todoapp
     kubectl apply -f .infrastructure/cluster-ip.yml -n todoapp
