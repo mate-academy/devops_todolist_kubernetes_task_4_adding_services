@@ -1,0 +1,79 @@
+# Pod 1: todoapp-1
+apiVersion: v1
+kind: Pod
+metadata:
+  name: todoapp-1
+  namespace: todoapp
+  labels:
+    app: todolist
+spec:
+  containers:
+    - name: todoapp-container
+      # Використовуємо ваш логін
+      image: langrafka/todoapp:3.0.0
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 8000 
+      env:
+        # Критичні Django ENVS (Task 6)
+        - name: SECRET_KEY
+          value: "insecure-secret-key-for-dev"
+        - name: ALLOWED_HOSTS
+          value: "*"
+        # Проби та логування
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: READINESS_DELAY 
+          value: "10"
+      livenessProbe:
+        httpGet:
+          path: /api/liveness/
+          port: 8000
+        initialDelaySeconds: 10
+        periodSeconds: 5
+      readinessProbe:
+        httpGet:
+          path: /api/readiness/
+          port: 8000
+        initialDelaySeconds: 12 
+        periodSeconds: 5
+---
+# Pod 2: todoapp-2
+apiVersion: v1
+kind: Pod
+metadata:
+  name: todoapp-2
+  namespace: todoapp
+  labels:
+    app: todolist
+spec:
+  containers:
+    - name: todoapp-container
+      # Використовуємо ваш логін
+      image: langrafka/todoapp:3.0.0
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 8000 
+      env:
+        # Критичні Django ENVS (Task 6)
+        - name: SECRET_KEY
+          value: "insecure-secret-key-for-dev"
+        - name: ALLOWED_HOSTS
+          value: "*"
+        # Проби та логування
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: READINESS_DELAY
+          value: "10"
+      livenessProbe:
+        httpGet:
+          path: /api/liveness/
+          port: 8000
+        initialDelaySeconds: 10
+        periodSeconds: 5
+      readinessProbe:
+        httpGet:
+          path: /api/readiness/
+          port: 8000
+        initialDelaySeconds: 12
+        periodSeconds: 5
