@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: todoapp
+  labels:
+    app: todolist
   namespace: todoapp
 spec:
   containers:
@@ -9,6 +11,9 @@ spec:
     image: ikulyk404/todoapp:3.0.0
     ports:
     - containerPort: 8080
+    env:
+     - name: APP_INSTANCE
+       value: "pod1"
     livenessProbe:
       httpGet:
         path: api/health
