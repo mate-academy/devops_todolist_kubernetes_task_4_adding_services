@@ -9,6 +9,9 @@ spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
+    env:
+    - name: INSTANCE_NAME
+      value: app
     ports:
     - containerPort: 8080
     livenessProbe:
@@ -35,6 +38,9 @@ spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
+    env:
+    - name: INSTANCE_NAME
+      value: appbackup
     ports:
     - containerPort: 8080
     livenessProbe:

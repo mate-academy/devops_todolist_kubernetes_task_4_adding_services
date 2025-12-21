@@ -11,7 +11,7 @@ curl http://todolist-cluster.todoapp.svc.cluster.local
 
 <!--  another way test ToDo application via browser http://localhost:8080/-->
 
-kubectl port-forward service/todolist-service 8080:80
+kubectl port-forward service/todolist-cluster 8080:80
 
 <!-- to test access via NodePort service via browser-->
 
