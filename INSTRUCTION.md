@@ -5,8 +5,8 @@ This guide provides instructions on how to interact with and test the ToDo appli
 ---
 ##  1. Apply all pods and services and namespace using next commands:
 ```bash
-    kubectl apply -f .infrastructure/namespace.yml
-    kubectl apply -f .infrastructure/busybox.yml
+    kubectl create namespace todoapp
+    kubectl run busy --image=busybox --restart=Never -- sleep 3600 -n todoapp
     kubectl apply -f .infrastructure/todoapp-pod.yml
     kubectl apply -f .infrastructure/clusterIP.yml
     kubectl apply -f .infrastructure/nodeport.yml
