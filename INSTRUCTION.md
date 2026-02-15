@@ -3,12 +3,13 @@
 This guide provides instructions on how to interact with and test the ToDo application deployed in the Kubernetes cluster.
 
 ---
-##  1. Apply all pods and services using next commands:
+##  1. Apply all pods and services and namespace using next commands:
 ```bash
-    kubectl apply -f ./src/busybox.yml
-    kubectl apply -f ./src/todoapp-pod.yml
-    kubectl apply -f ./src/clusterIP.yml
-    kubectl apply -f ./src/nodeport.yml
+    kubectl apply -f .infrastructure/namespace.yml
+    kubectl apply -f .infrastructure/busybox.yml
+    kubectl apply -f .infrastructure/todoapp-pod.yml
+    kubectl apply -f .infrastructure/clusterIP.yml
+    kubectl apply -f .infrastructure/nodeport.yml
 ```
 ## 2. Test of all pods and services work:
 
