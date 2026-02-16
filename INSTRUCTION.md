@@ -1,7 +1,7 @@
 ```bash
 kubectl apply -f .infrastructure/namespace.yml
 kubectl apply -f .infrastructure/todoapp-pod.yml
-kubectl apply -f .infrastructure/clusterip.yml
+kubectl apply -f .infrastructure/clusterIp.yml
 kubectl apply -f .infrastructure/nodeport.yml
 kubectl apply -f .infrastructure/busybox.yml
 ```
@@ -11,7 +11,7 @@ Wait until pods are ready: `kubectl get pods -n todoapp`
 ## 1. Test the app by calling the ClusterIP service DNS from a busybox container
 ```bash
 kubectl -n todoapp exec -it busybox -- sh
-curl http://todoapp-service
+curl http://todoapp-clusterip/api/health
 exit
 ```
 The service listens on port **80** (mapped to pod port 8080). A successful response from `/api/health` indicates the app is reachable via ClusterIP DNS.
