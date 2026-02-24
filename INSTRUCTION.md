@@ -7,11 +7,6 @@
 kubectl apply -f .infrastructure/namespace.yml
 ```
 
-`if namespace manifest is not available, create namespace manually`:
-```bash
-kubectl create namespace todoapp
-```
-
 `pods`:
 ```bash
 kubectl apply -f .infrastructure/todoapp-pod.yml
@@ -26,6 +21,11 @@ kubectl apply -f .infrastructure/todoapp-nodeport-service.yml
 `busybox` (for service DNS test; this manifest uses image with curl):
 ```bash
 kubectl apply -f .infrastructure/busybox.yml
+```
+
+`alternative (temporary curl pod)`:
+```bash
+kubectl run -n todoapp curl-test --image=curlimages/curl:8.6.0 --restart=Never -- sleep 1000
 ```
 
 ## Check resources
@@ -50,6 +50,12 @@ kubectl exec -it -n todoapp busybox -- curl http://todoapp-clusterip/
 `open API through service DNS`:
 ```bash
 kubectl exec -it -n todoapp busybox -- curl http://todoapp-clusterip/api/
+```
+
+`same test with temporary curl pod (if not using .infrastructure/busybox.yml)`:
+```bash
+kubectl exec -it -n todoapp curl-test -- curl http://todoapp-clusterip/
+kubectl exec -it -n todoapp curl-test -- curl http://todoapp-clusterip/api/
 ```
 
 `if test pod is in another namespace, use full service DNS (FQDN)`:
