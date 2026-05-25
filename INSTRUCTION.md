@@ -1,6 +1,3 @@
-Вот полный, финальный вариант файла INSTRUCTION.md. Можешь целиком скопировать его и сохранить в корне проекта.
-
-Markdown
 # ToDo Application Testing Instructions
 
 This guide describes how to verify and test the deployed Django ToDo application within the Kubernetes cluster using three different methods: via ClusterIP (DNS) using the custom BusyBox pod, the `port-forward` command, and the NodePort service.
@@ -35,7 +32,7 @@ You can forward a local port on your machine to the Kubernetes service to access
 Execute the port-forward command (maps your local port 8000 to the service port 80):
 
 ```
-kubectl port-forward service/todoapp-nodeport-service 8000:80 -n todoapp
+kubectl port-forward service/todoapp-clusterip-service 8000:80 -n todoapp
 ```
 (Note: You can also use the ClusterIP service for forwarding: kubectl port-forward service/todoapp-clusterip-service 8000:80 -n todoapp)
 
