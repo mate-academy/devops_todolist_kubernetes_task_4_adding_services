@@ -1,10 +1,10 @@
-ÍapiVersion: v1
+apiVersion: v1
 kind: Pod
 metadata:
   name: todoapp
   namespace: todoapp
   labels:
-    app: todoapp
+    app: todolist
 spec:
   containers:
   - name: todoapp
@@ -31,13 +31,13 @@ spec:
 
 ---
 
-ÍapiVersion: v1
+apiVersion: v1
 kind: Pod
 metadata:
   name: todoapp2
   namespace: todoapp
   labels:
-    app: todoapp
+    app: todolist
 spec:
   containers:
   - name: todoapp
