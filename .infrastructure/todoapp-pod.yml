@@ -3,21 +3,32 @@ kind: Pod
 metadata:
   name: todoapp
   namespace: todoapp
+  labels:
+    app: todolist
 spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
+    env:
+      - name: SECRET_KEY
+        value: "django-insecure-test-key"
+      - name: DEBUG
+        value: "True"
+      - name: ALLOWED_HOSTS
+        value: "*"
+      - name: DATABASE_URL
+        value: "sqlite:///db.sqlite3"
     ports:
     - containerPort: 8080
     livenessProbe:
       httpGet:
-        path: api/health
+        path: /api/health
         port: 8080
       initialDelaySeconds: 60
       periodSeconds: 5
     readinessProbe:
       httpGet:
-        path: api/ready
+        path: /api/ready
         port: 8080
       initialDelaySeconds: 5
       periodSeconds: 5
