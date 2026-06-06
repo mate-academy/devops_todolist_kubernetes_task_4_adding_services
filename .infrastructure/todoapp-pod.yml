@@ -3,12 +3,25 @@ kind: Pod
 metadata:
   name: todoapp
   namespace: todoapp
+  labels:
+    app: todolist
 spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
     ports:
     - containerPort: 8080
+    env:
+    - name: NODE_ENV
+      value: "production"
+    - name: TODO_APP_PORT
+      value: "8080"
+    - name: TODO_APP_HOST
+      value: "0.0.0.0"
+    - name: TODO_APP_DB_PATH
+      value: "/app/db/todos.json"
+    - name: TODO_APP_LOG_LEVEL
+      value: "info"
     livenessProbe:
       httpGet:
         path: api/health
