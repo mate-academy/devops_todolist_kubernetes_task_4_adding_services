@@ -4,7 +4,7 @@ go to folder repositiry
 create namespace
 kubectl apply -f namespace.yml
 create app
-kubectl apply -f namespace.yml
+kubectl apply -f todoapp-pod.yml
 create busybox
 kubectl apply -f busybox.yml
 create service clusterip
