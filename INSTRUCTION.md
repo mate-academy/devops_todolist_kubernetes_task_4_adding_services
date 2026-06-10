@@ -3,6 +3,8 @@ git clone repository
 go to folder repositiry
 create namespace
 kubectl apply -f namespace.yml
+check namespases
+kubectl get ns
 create app
 kubectl apply -f todoapp-pod.yml
 create busybox
