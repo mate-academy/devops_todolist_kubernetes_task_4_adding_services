@@ -1,0 +1,10 @@
+metadata:
+  name: todolist-pod-1
+  labels:
+    app: todolist
+
+env:
+  - name: DEBUG
+    value: "True"
+  - name: SECRET_KEY
+    value: "some-secret-value"
