@@ -3,21 +3,88 @@ kind: Pod
 metadata:
   name: todoapp
   namespace: todoapp
+  labels:
+    app: todolist
 spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
     ports:
-    - containerPort: 8080
+    - name: http
+      containerPort: 8080
+    env:
+    - name: DEBUG
+      value: "False"
+    - name: ALLOWED_HOSTS
+      value: "*"
+    resources:
+      limits:
+        cpu: "500m"
+        memory: "512Mi"
+      requests:
+        cpu: "250m"
+        memory: "256Mi"
     livenessProbe:
       httpGet:
-        path: api/health
-        port: 8080
-      initialDelaySeconds: 60
-      periodSeconds: 5
+        path: /api/health/live
+        port: http
+      initialDelaySeconds: 10
+      timeoutSeconds: 3
+      periodSeconds: 15
+      failureThreshold: 5
     readinessProbe:
       httpGet:
-        path: api/ready
-        port: 8080
+        path: /api/health/ready
+        port: http
       initialDelaySeconds: 5
-      periodSeconds: 5
+      timeoutSeconds: 3
+      periodSeconds: 10
+      failureThreshold: 3
+  restartPolicy: Never
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: todoapp2
+  namespace: todoapp
+  labels:
+    app: todolist
+spec:
+  containers:
+  - name: todoapp
+    image: ikulyk404/todoapp:3.0.0
+    ports:
+    - name: http
+      containerPort: 8080
+    env:
+    - name: DEBUG
+      value: "False"
+    - name: ALLOWED_HOSTS
+      value: "*"
+    resources:
+      limits:
+        cpu: "500m"
+        memory: "512Mi"
+      requests:
+        cpu: "250m"
+        memory: "256Mi"
+    livenessProbe:
+      httpGet:
+        path: /api/health/live
+        port: http
+      initialDelaySeconds: 10
+      timeoutSeconds: 3
+      periodSeconds: 15
+      failureThreshold: 5
+    readinessProbe:
+      httpGet:
+        path: /api/health/ready
+        port: http
+      initialDelaySeconds: 5
+      timeoutSeconds: 3
+      periodSeconds: 10
+      failureThreshold: 3
+  restartPolicy: Never
+  
