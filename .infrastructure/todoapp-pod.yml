@@ -9,6 +9,15 @@ spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
+    env:
+    - name: SECRET_KEY
+      value: "@e2(yx)v&tgh3_s=0yja-i!dpebxsz^dg47x)-k&kq_3zf*9e*"
+    - name: DEBUG
+      value: "True"
+    - name: ALLOWED_HOSTS
+      value: "*"
+    - name: PYTHONUNBUFFERED
+      value: "1"
     ports:
     - containerPort: 8080
     livenessProbe:
@@ -37,6 +46,15 @@ spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
+    env:
+    - name: SECRET_KEY
+      value: "@e2(yx)v&tgh3_s=0yja-i!dpebxsz^dg47x)-k&kq_3zf*9e*"
+    - name: DEBUG
+      value: "True"
+    - name: ALLOWED_HOSTS
+      value: "*"
+    - name: PYTHONUNBUFFERED
+      value: "1"
     ports:
     - containerPort: 8080
     livenessProbe:

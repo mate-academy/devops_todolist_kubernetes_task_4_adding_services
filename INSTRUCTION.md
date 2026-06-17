@@ -4,7 +4,8 @@ kubectl exec -it busybox -n todoapp -- sh
 Then use command: curl http://todoapp-service.todoapp.svc.cluster.local
 
 2. How to access an app using a NodePort Service.
-We should start our service with port wich we use in nodeport.yml manifest. In our option it's 30008.
+Check that the NodePort service is running with command: kubectl get svc
+We should start our service with port wich we use in nodeport.yml manifest. In our option it's http://localhost:30008.
 
 3. How to test ToDo application using the service port-forward command.
 Use command:
