@@ -1,0 +1,41 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: todo-app-1
+  labels:
+    app: todolist
+spec:
+  containers:
+    - name: todo-container
+      image: tanyasavenko/django-todo:latest
+      ports:
+        - containerPort: 8000
+      env:
+        - name: DEBUG
+          value: "True"
+        - name: SECRET_KEY
+          value: "your-secret-key-here"
+        - name: ALLOWED_HOSTS
+          value: "*"
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: todo-app-2
+  labels:
+    app: todolist
+spec:
+  containers:
+    - name: todo-container
+      image: tanyasavenko/django-todo:latest
+      ports:
+        - containerPort: 8000
+      env:
+        - name: DEBUG
+          value: "True"
+        - name: SECRET_KEY
+          value: "your-secret-key-here"
+        - name: ALLOWED_HOSTS
+          value: "*"
