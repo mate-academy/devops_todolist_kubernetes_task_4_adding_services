@@ -9,6 +9,9 @@ spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
+    env:
+    - name: DEBUG
+      value: "False"
     ports:
     - containerPort: 8080
     livenessProbe:
@@ -36,6 +39,9 @@ spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
+    env:
+    - name: DEBUG
+      value: "False"
     ports:
     - containerPort: 8080
     livenessProbe:
