@@ -62,7 +62,7 @@ curl todoapp-service.todoapp.svc.cluster.local.
 run following command:
 
 ```bash
-kubectl port-forward service/todoapp-service 8081:8080
+kubectl port-forward service/todoapp-service 8081:80
 ```
 Now you can open [localhost:8081](localhost:8081) in your browser
 
