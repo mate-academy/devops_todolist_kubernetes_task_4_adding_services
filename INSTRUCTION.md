@@ -49,7 +49,7 @@ kubectl -n todoapp exec -it busybox -- sh
 ```
     and run curl's page inside the container: 
 ```
-curl http://localhost:8081
+curl http://todoapp-service.todoapp.svc.cluster.local
 ```
 
 ## 7. Create the NodePort service and acces the app:
