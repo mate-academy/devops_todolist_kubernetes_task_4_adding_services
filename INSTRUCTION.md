@@ -63,7 +63,7 @@ exit
 Forward a local port to the ClusterIP service (not directly to a pod):
 
 ```bash
-kubectl port-forward -n todoapp service/todoapp-clusterip-service 8000:80
+kubectl port-forward -n todoapp service/todoapp-clusterip-svc 8000:80
 ```
 
 Keep this command running in a terminal, then open your browser and navigate to:
