@@ -9,6 +9,9 @@ spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
+    env:
+      - name: PYTHONUNBUFFERED
+        value: "1"
     ports:
     - containerPort: 8080
     livenessProbe:
@@ -29,7 +32,7 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: todoapp
+  name: todoapp-2
   namespace: todoapp
   labels:
     app: todolist
@@ -37,6 +40,9 @@ spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
+    env:
+      - name: PYTHONUNBUFFERED
+        value: "1"
     ports:
     - containerPort: 8080
     livenessProbe:
