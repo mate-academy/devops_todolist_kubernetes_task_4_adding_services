@@ -29,19 +29,19 @@ To test the application by calling the ClusterIP service DNS from the `busybox` 
 
 ```bash
 # Execute curl inside the busybox container targeting the ClusterIP service DNS
-kubectl exec -it busybox -n todoapp -- curl http://todolist-clusterip-service.todoapp.svc.cluster.local:8080/
+kubectl exec -it busybox -n todoapp -- curl http://todoapp-clusterip.todoapp.svc.cluster.local/
 ```
 
 Alternatively, using the short DNS name within the same `todoapp` namespace:
 
 ```bash
-kubectl exec -it busybox -n todoapp -- curl http://todolist-clusterip-service:8080/
+kubectl exec -it busybox -n todoapp -- curl http://todoapp-clusterip/
 ```
 
 To test the API endpoint:
 
 ```bash
-kubectl exec -it busybox -n todoapp -- curl http://todolist-clusterip-service:8080/api/
+kubectl exec -it busybox -n todoapp -- curl http://todoapp-clusterip/api/
 ```
 
 ---
@@ -51,7 +51,7 @@ kubectl exec -it busybox -n todoapp -- curl http://todolist-clusterip-service:80
 To forward traffic from your local machine to the ClusterIP service:
 
 ```bash
-kubectl port-forward service/todolist-clusterip-service 8080:8080 -n todoapp
+kubectl port-forward service/todoapp-clusterip 8080:80 -n todoapp
 ```
 
 Or using the NodePort service:
