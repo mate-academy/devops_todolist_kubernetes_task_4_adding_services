@@ -32,11 +32,10 @@ kubectl apply -f nodeport.yml
 To test the programme by calling the ClusterIP DNS service from the busybox container, use the command:
 ```
 kubectl -n todoapp exec -it busybox -- sh
-curl
 ```
 
 ``` 
-http://todoapp-service.todoapp.svc.cluster.local
+curl http://todoapp-service.todoapp.svc.cluster.local
 ```
 To test the ToDo programme using the `port-forward` command in `service`, use the following command:
 ```
