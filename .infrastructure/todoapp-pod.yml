@@ -12,6 +12,8 @@ spec:
     env:
     - name: DJANGO_SETTINGS_MODULE
       value: "todolist.settings"
+    - name: PYTHONUNBUFFERED
+      value: 1
     ports:
     - containerPort: 8080
     livenessProbe:
@@ -43,6 +45,8 @@ spec:
     env:
     - name: DJANGO_SETTINGS_MODULE
       value: "todolist.settings"
+    - name: PYTHONUNBUFFERED
+      value: 1
     ports:
     - containerPort: 8080
     livenessProbe:
