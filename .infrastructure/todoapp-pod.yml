@@ -3,10 +3,9 @@ kind: Pod
 metadata:
   name: todoapp
   namespace: todoapp
-  labels: todolist
-spec:
-  selector:
+  labels:
     app: todolist
+spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
@@ -33,10 +32,9 @@ kind: Pod
 metadata:
   name: todoapp2
   namespace: todoapp
-  labels: todolist
+  labels:
+  app: todolist
 spec:
-  selector:
-    app: todolist
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
