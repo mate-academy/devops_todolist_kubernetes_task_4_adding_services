@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: todoapp-clusterip
+  namespace: todoapp
+  labels:
+    app: todolist
+spec:
+  type: ClusterIP
+  selector:
+    app: todolist
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
