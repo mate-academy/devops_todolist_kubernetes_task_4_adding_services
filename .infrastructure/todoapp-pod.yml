@@ -11,6 +11,31 @@ spec:
     image: ikulyk404/todoapp:3.0.0
     ports:
     - containerPort: 8080
+    env: 
+    - name: DJANGO_SETTINGS_MODULE
+      value: "todolist.settings"
+    - name: SECRET_KEY
+      value: "@e2(yx)v&tgh3_s=0yja-i!dpebxsz^dg47x)-k&kq_3zf*9e*"
+    - name: DEBUG
+      value: "True"
+    - name: ALLOWED_HOSTS
+      value: "*"
+    - name: LANGUAGE_CODE
+      value: "en-us"
+    - name: TIME_ZONE
+      value: "UTC"
+    - name: USE_I18N
+      value: "True"
+    - name: USE_L10N
+      value: "True"
+    - name: USE_TZ
+      value: "True"
+    - name: STATIC_URL
+      value: "/static/"
+    - name: LOGIN_URL
+      value: "/auth/login/"
+    - name: LOGOUT_URL
+      value: "/auth/logout/"
     livenessProbe:
       httpGet:
         path: api/health
@@ -39,6 +64,31 @@ spec:
     image: ikulyk404/todoapp:3.0.0
     ports:
     - containerPort: 8080
+    env: 
+    - name: DJANGO_SETTINGS_MODULE
+      value: "todolist.settings"
+    - name: SECRET_KEY
+      value: "@e2(yx)v&tgh3_s=0yja-i!dpebxsz^dg47x)-k&kq_3zf*9e*"
+    - name: DEBUG
+      value: "True"
+    - name: ALLOWED_HOSTS
+      value: "*"
+    - name: LANGUAGE_CODE
+      value: "en-us"
+    - name: TIME_ZONE
+      value: "UTC"
+    - name: USE_I18N
+      value: "True"
+    - name: USE_L10N
+      value: "True"
+    - name: USE_TZ
+      value: "True"
+    - name: STATIC_URL
+      value: "/static/"
+    - name: LOGIN_URL
+      value: "/auth/login/"
+    - name: LOGOUT_URL
+      value: "/auth/logout/"
     livenessProbe:
       httpGet:
         path: api/health

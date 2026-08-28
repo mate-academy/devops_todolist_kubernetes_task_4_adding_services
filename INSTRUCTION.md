@@ -24,8 +24,8 @@ You should get `Health OK`
 ```bash
 kubectl port-forward service/todoapp-clusterip-svc 8080:8080 -n todoapp
 ```
-Now you should be able to access wedsite `http://localhost:8080/`
+Now you should be able to access website `http://localhost:8080/`
 
 ## Access via NodePort service
 
-you shoild be able to access wedsite `http://localhost:30007/`
+you shoild be able to access website `http://localhost:30007/`
