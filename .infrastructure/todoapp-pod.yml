@@ -3,6 +3,8 @@ kind: Pod
 metadata:
   name: todoapp-1
   namespace: todoapp
+  labels:
+    app: todoapp
 spec:
   containers:
   - name: todoapp
