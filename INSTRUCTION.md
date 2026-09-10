@@ -8,11 +8,11 @@ Use the following links below:
         kubectl apply -f .infrastructure/todoapp-pod.yml
         kubectl apply -f .infrastructure/clusterIp.yml
         kubectl apply -f .infrastructure/busybox.yml
-        kubectl exec -it busybox -- sh
+        kubectl exec -n todolist -it busybox -- sh
         curl http://todoapp-service.todoapp.svc.cluster.local
 
     - how to test ToDo application using the service port-forward command:
-        kubectl port-forward  service/todoapp-service 8081:80
+        kubectl port-forward service/todoapp-service 8081:80 -n todolist
         Make sure http://localhost:8081/ URL is available and working.
 
     -  how to access an app using a NodePort Service:
