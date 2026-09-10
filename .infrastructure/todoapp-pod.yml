@@ -9,6 +9,15 @@ spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
+    env:
+    - name: DEBUG
+      value: "True"
+    - name: SECRET_KEY
+      value: "@e2(yx)v&tgh3_s=0yja-i!dpebxsz^dg47x)-k&kq_3zf*9e*"
+    - name: DATABASE_URL
+      value: "sqlite:///db.sqlite3"
+    - name: ALLOWED_HOSTS
+      value: "*"
     ports:
     - containerPort: 8080
     livenessProbe:
@@ -36,6 +45,15 @@ spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
+    env:
+    - name: DEBUG
+      value: "True"
+    - name: SECRET_KEY
+      value: "@e2(yx)v&tgh3_s=0yja-i!dpebxsz^dg47x)-k&kq_3zf*9e*"
+    - name: DATABASE_URL
+      value: "sqlite:///db.sqlite3"
+    - name: ALLOWED_HOSTS
+      value: "*"
     ports:
     - containerPort: 8080
     livenessProbe:
