@@ -11,7 +11,6 @@ Use the following links below:
         kubectl exec -it busybox -- sh
         curl http://todoapp-service.todoapp.svc.cluster.local
 
-
     - how to test ToDo application using the service port-forward command:
         kubectl port-forward  service/todoapp-service 8081:80
         Make sure http://localhost:8081/ URL is available and working.
