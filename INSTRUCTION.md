@@ -1,3 +1,13 @@
+## Environment Variables
+
+The application containers in `.infrastructure/todoapp-pod.yml` rely on the following environment variables passed directly via the pod manifests (`env` section):
+
+| Variable Name | Description | Example / Default Value |
+| :--- | :--- | :--- |
+| `DATABASE_URL` | Database connection string | `sqlite:///./todoapp.db` |
+| `SECRET_KEY` | Secret key used for session/application security | `your-secret-key-here` |
+| `DEBUG` | Enables or disables debug mode | `True` |
+
 ## Testing ClusterIP Service DNS from a busybox Container
 
 ### 1. Execute Shell inside busybox Container
