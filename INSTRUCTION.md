@@ -10,8 +10,8 @@ This test verifies internal cluster DNS resolution and connectivity between pods
    `kubectl apply -f .infrastructure/busybox.yml`
 2. Execute an interactive shell inside the busybox pod:
    `kubectl exec -it busybox -- sh`
-3. Call the ClusterIP service using its DNS name (assuming the service is named `todo-clusterip` and listens on port `8000`):
-   `wget -qO- http://todo-clusterip:8000`
+3. Call the ClusterIP service using its DNS name:
+   `wget -qO- http://clusterIP-service:80`
    
 *Expected result: You should see the HTML output of the ToDo application.*
 
@@ -19,8 +19,8 @@ This test verifies internal cluster DNS resolution and connectivity between pods
 
 This test verifies the application by forwarding traffic from your local machine directly to the ClusterIP service.
 
-1. Run the port-forward command in your terminal (mapping local port 8080 to service port 8000):
-   `kubectl port-forward svc/todo-clusterip 8080:8000`
+1. Run the port-forward command in your terminal:
+   `kubectl port-forward svc/clusterIP-service 8080:80`
 2. Open your web browser or use `curl` in a new terminal window:
    `curl http://localhost:8080`
    
@@ -30,11 +30,11 @@ This test verifies the application by forwarding traffic from your local machine
 
 This test verifies external access to the application through the Node's IP address.
 
-1. Find the NodePort assigned to your service (look for the port in the 30000-32767 range):
-   `kubectl get svc todo-nodeport`
+1. Find the NodePort assigned to your service:
+   `kubectl get svc nodePort-service`
 2. Get the IP address of your Minikube node:
    `minikube ip`
-3. Access the application using the Node's IP and the assigned NodePort (e.g., if Node IP is `192.168.49.2` and NodePort is `30080`):
-   `curl http://192.168.49.2:30080`
+3. Access the application using the Node's IP and the assigned NodePort (e.g., if Node IP is `192.168.49.2` and NodePort is `30007`):
+   `curl http://192.168.49.2:30007`
    
 *Expected result: The application should be accessible from "outside" the cluster using the Node's IP and NodePort.*
