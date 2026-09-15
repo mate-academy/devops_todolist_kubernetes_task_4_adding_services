@@ -8,6 +8,13 @@ metadata:
 spec:
   containers:
   - name: todoapp
+    env:
+    - name: DATABASE_URL
+      value: "sqlite:///db.sqlite3"
+    - name: SECRET_KEY
+      value: "my-secret-key"
+    - name: DEBUG
+      value: "True"
     image: ikulyk404/todoapp:3.0.0
     ports:
     - containerPort: 8080
@@ -36,6 +43,13 @@ metadata:
 spec:
   containers:
   - name: todoapp
+    env:
+      - name: DATABASE_URL
+        value: "sqlite:///db.sqlite3"
+      - name: SECRET_KEY
+        value: "my-secret-key"
+      - name: DEBUG
+        value: "True"
     image: ikulyk404/todoapp:3.0.0
     ports:
     - containerPort: 8080
