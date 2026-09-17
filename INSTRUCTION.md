@@ -1,55 +1,98 @@
-# Instructions for Deploying, Exposing, and Testing ToDo App in Kubernetes
+# Deploying, Exposing, and Testing the ToDo App in Kubernetes
 
-This guide describes how to apply the Kubernetes manifests for the ToDo application, configure namespaces, pods, and services (ClusterIP and NodePort), and test the application using various methods.
+This guide walks through applying the Kubernetes manifests for the ToDo application — namespace, pods, and services (ClusterIP and NodePort) — and testing the deployment through several methods.
 
-## 1. Apply All Manifests
+## Prerequisites
 
-Ensure your Kubernetes cluster (e.g., Minikube) is running, then apply the manifests located under the `.infrastructure` folder in the correct order:
+- A running Kubernetes cluster (e.g., Minikube)
+- `kubectl` configured to point at the cluster
+- Manifests available under the `.infrastructure/` directory
 
-1. **Create the Namespace:**
-   ```bash
-   kubectl apply -f .infrastructure/namespace.yml
+## 1. Apply the Manifests
 
-Deploy the Pods (Main and Canary):
+Apply the manifests in the following order.
+
+### 1.1 Create the namespace
+
+```bash
+kubectl apply -f .infrastructure/namespace.yml
+```
+
+### 1.2 Deploy the pods (main and canary)
+
+```bash
 kubectl apply -f .infrastructure/todoapp-pod.yml
-Deploy the Services (ClusterIP and NodePort):
+```
 
-kubectl apply -f .infrastructure/services.yml
-Deploy the Busybox Container (for testing):
+### 1.3 Deploy the ClusterIP service
 
+```bash
+kubectl apply -f .infrastructure/clusterip.yml
+```
+
+### 1.4 Deploy the NodePort service
+
+```bash
+kubectl apply -f .infrastructure/nodeport.yml
+```
+
+### 1.5 Deploy the Busybox container (for testing)
+
+```bash
 kubectl apply -f .infrastructure/busybox.yml
+```
 
-2. Testing via ClusterIP DNS from a Busybox Container
-To test internal traffic balancing and name resolution through the ClusterIP service:
+## 2. Test via ClusterIP DNS from the Busybox Pod
 
-Open an interactive shell inside the running busybox pod:
-kubectl exec -it busybox -n todoapp -- sh
-Send a curl request to the ClusterIP service DNS name (traffic will be automatically balanced between the two pods):
+Verify internal traffic routing and DNS resolution through the ClusterIP service.
 
-curl [http://todoapp-clusterip-service.todoapp.svc.cluster.local/api/health/](http://todoapp-clusterip-service.todoapp.svc.cluster.local/api/health/)
+1. Open an interactive shell inside the running Busybox pod:
 
-Exit the container shell:
-exit
+   ```bash
+   kubectl exec -it busybox -n todoapp -- sh
+   ```
 
+2. Send a request to the ClusterIP service's DNS name:
 
-3. Testing the Application Using Service port-forward
-To access the ToDo application directly from your local machine via the service:
+   ```bash
+   curl http://todoapp-clusterip-service.todoapp.svc.cluster.local/api/health/
+   ```
 
-Forward local port 8000 to port 80 on the todoapp-clusterip-service:
+3. Exit the container shell:
 
-kubectl port-forward service/todoapp-clusterip-service -n todoapp 8000:80
-Open your browser or run curl in another terminal window:
+   ```bash
+   exit
+   ```
 
-Health Check: http://localhost:8000/api/health/
+## 3. Test via Service Port-Forwarding
 
-Readiness Check: http://localhost:8000/api/readiness/
+Access the application directly from your local machine through the service.
 
-4. Accessing the App Using NodePort Service
-To access the application externally at the Node level:
+1. Forward local port `8000` to port `80` on the ClusterIP service:
 
-If you are using Minikube, you can get the cluster IP and node port using:
+   ```bash
+   kubectl port-forward service/todoapp-clusterip-service -n todoapp 8000:80
+   ```
 
-minikube service todoapp-nodeport-service -n todoapp --url
+2. Open the endpoints in a browser or with `curl` in another terminal:
 
-Verify endpoints via curl:
-curl http://<Node-IP>:30007/api/health/
+   | Check | URL |
+   |---|---|
+   | Health | http://localhost:8000/api/health/ |
+   | Readiness | http://localhost:8000/api/readiness/ |
+
+## 4. Access the App via NodePort
+
+Reach the application externally at the node level.
+
+1. Get the service URL via Minikube (if applicable):
+
+   ```bash
+   minikube service todoapp-nodeport-service -n todoapp --url
+   ```
+
+2. Verify the endpoint using the node IP and port `30007`:
+
+   ```bash
+   curl http://<Node-IP>:30007/api/health/
+   ```
