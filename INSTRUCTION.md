@@ -7,7 +7,7 @@ curl http://todoapp-service.todoapp.svc.cluster.local
 
 To test port forward on 8081 run:
 ```
-kubectl port-forward pod/todoapp 8081:8080 -n todoapp
+kubectl port-forward svc/todoapp-service 8081:80 -n todoapp
 ```
 
 To test NodePort Service:

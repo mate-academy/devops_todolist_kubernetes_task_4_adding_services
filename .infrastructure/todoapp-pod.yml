@@ -11,6 +11,9 @@ spec:
     image: ikulyk404/todoapp:3.0.0
     ports:
     - containerPort: 8080
+    env:
+    - name: PYTHONUNBUFFERED
+      value: "1"
     livenessProbe:
       httpGet:
         path: api/health
@@ -39,6 +42,9 @@ spec:
     image: ikulyk404/todoapp:3.0.0
     ports:
     - containerPort: 8080
+    env:
+    - name: PYTHONUNBUFFERED
+      value: "1"
     livenessProbe:
       httpGet:
         path: api/health
