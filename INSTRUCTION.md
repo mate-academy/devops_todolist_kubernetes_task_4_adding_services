@@ -1,3 +1,19 @@
+Preporation:
+run the container with busybox to execute it later:
+```
+kubectl run busybox --image=busybox -n todoapp --restart=Never -- sleep 3600
+```
+
+Create namespace, pods and services:
+
+```
+kubectl apply -f .infrastructure/namespace.yml
+kubectl apply -f .infrastructure/busybox.yml
+kubectl apply -f .infrastructure/todoapp-pod.yml
+kubectl apply -f .infrastructure/clusterIP.yml
+kubectl apply -f .infrastructure/nodeport.yml
+```
+
 To test ClusterApi from busybox run:
 ```
 kubectl -n todoapp exec -it busybox -- sh
