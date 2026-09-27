@@ -13,7 +13,6 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
@@ -57,52 +56,56 @@ ROOT_URLCONF = "todolist.urls"
 
 WSGI_APPLICATION = "todolist.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        "ENGINE": os.environ.get(
+            "DB_ENGINE",
+            "django.db.backends.sqlite3",
+        ),
+        "NAME": os.environ.get(
+            "DB_NAME",
+            os.path.join(BASE_DIR, "db.sqlite3"),
+        ),
+        "HOST": os.environ.get("DB_HOST", ""),
+        "PORT": os.environ.get("DB_PORT", ""),
+        "USER": os.environ.get("DB_USER", ""),
+        "PASSWORD": os.environ.get("DB_PASSWORD", ""),
     }
-
-    # "default": {
-    #     "ENGINE": "django.db.backends.mysql",
-    #     "HOST": "FVFFM3F5Q05N", 
-    #     "PORT": 3306,
-    #     "NAME":"tododb",
-    #     "PASSWORD": "my-secret-pw", 
-    #     "USER": "root",
-    # }
 }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
-
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
+def env_bool(name, default=False):
+    return os.environ.get(
+        name,
+        str(default)
+    ).lower() in ("1", "true", "yes", "on")
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.7/howto/static-files/
+LANGUAGE_CODE = os.environ.get("LANGUAGE_CODE", "en-us")
 
-STATIC_URL = "/static/"
+TIME_ZONE = os.environ.get("TIME_ZONE", "UTC")
 
+USE_I18N = env_bool("USE_I18N", True)
+
+USE_L10N = env_bool("USE_L10N", True)
+
+USE_TZ = env_bool("USE_TZ", True)
+
+# Static files
+STATIC_URL = os.environ.get("STATIC_URL", "/static/")
 
 # Login settings
+LOGIN_URL = os.environ.get("LOGIN_URL", "/auth/login/")
 
-LOGIN_URL = "/auth/login/"
-
-LOGOUT_URL = "/auth/logout/"
-
+LOGOUT_URL = os.environ.get("LOGOUT_URL", "/auth/logout/")
 
 # rest (api) framework
 REST_FRAMEWORK = {
