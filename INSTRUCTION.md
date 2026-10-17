@@ -11,6 +11,37 @@ kubectl config current-context
 kubectl get nodes -o wide
 ```
 
+### Змінні середовища контейнерів
+
+У `.infrastructure/todoapp-pod.yml` для контейнерів обох Pod (`todoapp` і `todoapp-2`) змінні середовища явно задані через секцію `spec.containers[].env`:
+
+| Змінна | Значення | Призначення |
+| --- | --- | --- |
+| `PYTHONUNBUFFERED` | `"1"` | Вимикає буферизацію виводу Python, щоб логи надходили одразу. |
+| `DJANGO_SETTINGS_MODULE` | `"todolist.settings"` | Указує модуль налаштувань Django. |
+
+Якщо Pod уже існують без цих змінних, зміна `env` потребує їх перестворення: звичайний `kubectl apply` не може оновити це поле наявного Pod. У такому разі перед застосуванням маніфестів видаліть лише Pod застосунку (це спричинить перерву в його роботі):
+
+```bash
+kubectl -n todoapp delete pod todoapp todoapp-2 --ignore-not-found
+```
+
+Потім створіть їх із оновленого маніфесту командами з наступного розділу. Якщо це перше розгортання, видалення не потрібне.
+
+Після запуску Pod перевірте значення в кожному контейнері:
+
+```bash
+kubectl -n todoapp exec todoapp -- printenv PYTHONUNBUFFERED DJANGO_SETTINGS_MODULE
+kubectl -n todoapp exec todoapp-2 -- printenv PYTHONUNBUFFERED DJANGO_SETTINGS_MODULE
+```
+
+Для кожного Pod очікуйте:
+
+```text
+1
+todolist.settings
+```
+
 ### Застосування маніфестів
 
 Спочатку створіть namespace, потім решту ресурсів:

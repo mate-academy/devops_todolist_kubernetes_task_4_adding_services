@@ -4,7 +4,7 @@ metadata:
   name: todoapp-clusterip
   namespace: todoapp
   labels:
-    app: todoapp-2
+    app: todolist
 spec:
   type: ClusterIP
   selector:
