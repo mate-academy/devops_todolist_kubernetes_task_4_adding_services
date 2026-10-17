@@ -13,7 +13,7 @@ kubectl get nodes -o wide
 
 ### Змінні середовища контейнерів
 
-У `.infrastructure/todoapp-pod.yml` для контейнерів обох Pod (`todoapp` і `todoapp-2`) змінні середовища явно задані через секцію `spec.containers[].env`:
+У `.infrastructure/todoapp-pod.yml` для контейнерів обох Pod (`todolist` і `todolist-2`) змінні середовища явно задані через секцію `spec.containers[].env`:
 
 | Змінна | Значення | Призначення |
 | --- | --- | --- |
@@ -23,7 +23,7 @@ kubectl get nodes -o wide
 Якщо Pod уже існують без цих змінних, зміна `env` потребує їх перестворення: звичайний `kubectl apply` не може оновити це поле наявного Pod. У такому разі перед застосуванням маніфестів видаліть лише Pod застосунку (це спричинить перерву в його роботі):
 
 ```bash
-kubectl -n todoapp delete pod todoapp todoapp-2 --ignore-not-found
+kubectl -n todoapp delete pod todolist todolist-2 --ignore-not-found
 ```
 
 Потім створіть їх із оновленого маніфесту командами з наступного розділу. Якщо це перше розгортання, видалення не потрібне.
@@ -31,8 +31,8 @@ kubectl -n todoapp delete pod todoapp todoapp-2 --ignore-not-found
 Після запуску Pod перевірте значення в кожному контейнері:
 
 ```bash
-kubectl -n todoapp exec todoapp -- printenv PYTHONUNBUFFERED DJANGO_SETTINGS_MODULE
-kubectl -n todoapp exec todoapp-2 -- printenv PYTHONUNBUFFERED DJANGO_SETTINGS_MODULE
+kubectl -n todoapp exec todolist -- printenv PYTHONUNBUFFERED DJANGO_SETTINGS_MODULE
+kubectl -n todoapp exec todolist-2 -- printenv PYTHONUNBUFFERED DJANGO_SETTINGS_MODULE
 ```
 
 Для кожного Pod очікуйте:
@@ -53,7 +53,7 @@ kubectl apply -f .infrastructure/todoapp-pod.yml \
   -f .infrastructure/NodePort.yml \
   -f .infrastructure/busybox.yml
 
-kubectl -n todoapp wait --for=condition=Ready pod/todoapp pod/todoapp-2 --timeout=180s
+kubectl -n todoapp wait --for=condition=Ready pod/todolist pod/todolist-2 --timeout=180s
 kubectl -n todoapp wait --for=condition=Ready pod/busybox --timeout=180s
 kubectl -n todoapp get pods -o wide --show-labels
 kubectl -n todoapp get services
@@ -122,8 +122,8 @@ kubectl -n todoapp exec busybox -- sh -c '
   done
 '
 
-kubectl -n todoapp logs todoapp --since=2m --tail=100
-kubectl -n todoapp logs todoapp-2 --since=2m --tail=100
+kubectl -n todoapp logs todolist --since=2m --tail=100
+kubectl -n todoapp logs todolist-2 --since=2m --tail=100
 ```
 
 Знайдіть запити з `check=clusterip` у логах обох Pod. Service автоматично розподіляє нові з'єднання між готовими Pod; суворе чергування або рівно 50/50 не гарантується. Якщо в невеликій вибірці запити потрапили лише в один Pod, перевірте кінцеві точки та повторіть серію.

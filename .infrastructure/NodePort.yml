@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: todo-nodeport-app
   namespace: todoapp
+  labels:
+    app: todolist
 spec:
   type: NodePort
   selector:

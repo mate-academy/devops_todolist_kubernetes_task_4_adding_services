@@ -33,7 +33,7 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: todolist
+  name: todolist-2
   namespace: todoapp
   labels:
     app: todolist
