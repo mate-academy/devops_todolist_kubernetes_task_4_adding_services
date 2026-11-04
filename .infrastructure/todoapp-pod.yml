@@ -12,6 +12,8 @@ spec:
     env:
     - name: DATABASE_URL
       value: "db.sqlite3"
+    - name: SECRET_KEY
+      value: "my-secret-key"
     - name: DEBUG
       value: "True"
     - name: ALLOWED_HOSTS
@@ -46,6 +48,8 @@ spec:
     env:
     - name: DATABASE_URL
       value: "db.sqlite3"
+    - name: SECRET_KEY
+      value: "my-secret-key"
     - name: DEBUG
       value: "True"
     - name: ALLOWED_HOSTS
