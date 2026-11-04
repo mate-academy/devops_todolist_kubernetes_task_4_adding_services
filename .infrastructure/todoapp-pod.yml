@@ -9,6 +9,13 @@ spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
+    env:
+    - name: DATABASE_URL
+      value: "db.sqlite3"
+    - name: DEBUG
+      value: "True"
+    - name: ALLOWED_HOSTS
+      value: "*"
     ports:
     - containerPort: 8080
     livenessProbe:
@@ -36,6 +43,13 @@ spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
+    env:
+    - name: DATABASE_URL
+      value: "db.sqlite3"
+    - name: DEBUG
+      value: "True"
+    - name: ALLOWED_HOSTS
+      value: "*"
     ports:
     - containerPort: 8080
     livenessProbe:
