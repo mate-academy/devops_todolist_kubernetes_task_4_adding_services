@@ -1,83 +1,124 @@
+
 # Django ToDo — Working with Kubernetes Services
 
 ## Prerequisites
 
-- A running Kubernetes cluster (for example, Docker Desktop) and `kubectl` configured to access it.
-- Run the commands from the root of this repository.
-- If you previously deployed another Busybox Pod named `busybox` in the `todoapp` namespace, delete that Pod before applying the new Busybox manifest if Kubernetes reports an immutable-field error.
+- A running Kubernetes cluster (Docker Desktop).
+- kubectl configured to access the cluster.
+- Run all commands from the root of this repository.
+- The BusyBox Pod uses the `ikulyk404/busyboxplus:curl` image, which includes curl. The standard BusyBox image does not normally include curl.
 
 ## 1. Deploy the application
 
-Create the namespace first, then apply all manifests:
+Create the namespace:
 
 ```bash
 kubectl apply -f .infrastructure/namespace.yml
+```
+
+Apply all Kubernetes manifests:
+
+```bash
 kubectl apply -f .infrastructure/
 ```
 
-If the existing Busybox Pod prevents the new manifest from being applied:
-
-```bash
-kubectl delete pod busybox -n todoapp
-kubectl apply -f .infrastructure/busybox.yml
-```
-
-Check that the Pods and Services have been created:
+Check the Pods and Services:
 
 ```bash
 kubectl get pods,svc -n todoapp
+```
+
+Wait until both application Pods are ready:
+
+```bash
 kubectl get pods -n todoapp -l app=todolist
 ```
 
-Wait until `todoapp` and `todoapp-1` both show `1/1 Running`. Both application Pods have the label `app: todolist`, use container port `8080`, and receive `PYTHONUNBUFFERED=1` from the Pod manifest.
+Expected result:
 
-The Services are:
+```text
+NAME        READY   STATUS    RESTARTS
+todoapp     1/1     Running   0
+todoapp-1   1/1     Running   0
+```
 
-| Service | Type | Port | Target port | Node port |
-| --- | --- | --- | --- | --- |
-| `todolist-service` | ClusterIP | 80 | 8080 | — |
-| `todoapp-service` | NodePort | 80 | 8080 | 30008 |
+Both Pods have the label `app: todolist`.
 
-Both Services select the application Pods using `app: todolist`.
+The `PYTHONUNBUFFERED` environment variable is configured in both Pod manifests.
 
-## 2. Test the ClusterIP Service from Busybox
+## 2. Application port configuration
 
-Open an interactive shell in the Busybox Pod:
+The default Django development server port is 8000, as mentioned in README.md.
+
+However, the application inside the Docker container explicitly listens on port 8080.
+
+The Dockerfile uses:
+
+```dockerfile
+ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+```
+
+Both Pod specifications also explicitly define the startup command:
+
+```yaml
+command: ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+```
+
+Therefore, both Kubernetes Services use:
+
+```yaml
+port: 80
+targetPort: 8080
+```
+
+The Services are configured as follows:
+
+| Service | Type | Port | TargetPort | NodePort |
+|---|---|---|---|---|
+| todolist-service | ClusterIP | 80 | 8080 | - |
+| todoapp-service | NodePort | 80 | 8080 | 30008 |
+
+Both Services select Pods using the label `app: todolist`.
+
+## 3. Test the ClusterIP Service from BusyBox
+
+The BusyBox manifest uses the following curl-enabled image:
+
+```yaml
+image: ikulyk404/busyboxplus:curl
+```
+
+Verify that curl is available:
+
+```bash
+kubectl exec -n todoapp busybox -- curl --version
+```
+
+Open an interactive shell inside the BusyBox container:
 
 ```bash
 kubectl exec -it busybox -n todoapp -- sh
 ```
 
-Inside the container, send an HTTP request using the ClusterIP Service DNS name (assuming the default cluster DNS domain, `cluster.local`):
+Send an HTTP request to the ClusterIP Service using its DNS name:
 
 ```bash
 curl -i http://todolist-service.todoapp.svc.cluster.local/
 ```
 
-The application should return a successful HTTP response and the ToDo landing page. The URL uses the Service port `80`, not the container port `8080`.
+The application should return a successful HTTP response and the ToDo landing page.
 
-You can also check the application API:
+Test the API:
 
 ```bash
 curl -i http://todolist-service.todoapp.svc.cluster.local/api/
 ```
 
-To exit the Busybox shell, run:
+The ClusterIP Service provides a stable DNS name and routes requests to the available application Pods.
 
-```bash
-exit
-```
+## 4. Verify traffic distribution
 
-### Check both Service backends
-
-```bash
-kubectl get pods -n todoapp -l app=todolist -o wide
-kubectl get endpointslice -n todoapp -l kubernetes.io/service-name=todolist-service -o wide
-```
-
-The EndpointSlice output should include the IP addresses of both application Pods. To inspect their readiness conditions, add `-o yaml` instead of `-o wide` to the EndpointSlice command.
-
-To exercise traffic distribution, send several requests from Busybox (in a shell opened with the `kubectl exec` command above):
+While inside the BusyBox container, send multiple HTTP requests:
 
 ```bash
 for i in 1 2 3 4 5 6 7 8 9 10; do
@@ -85,75 +126,134 @@ for i in 1 2 3 4 5 6 7 8 9 10; do
 done
 ```
 
-Exit Busybox and inspect the application logs:
+Exit the BusyBox shell:
 
 ```bash
-kubectl logs todoapp -n todoapp --tail=30
-kubectl logs todoapp-1 -n todoapp --tail=30
+exit
 ```
 
-Look for requests to `/` in the logs of both Pods. Traffic distribution is not guaranteed to alternate evenly between Pods on every request.
+Check the logs of both application Pods:
 
-## 3. Test the application using Service port-forward
+```bash
+kubectl logs todoapp -n todoapp
+kubectl logs todoapp-1 -n todoapp
+```
 
-From your local terminal, run:
+Requests should be distributed between the two available Pods. Traffic distribution does not necessarily alternate evenly between Pods.
+
+Check the Service endpoints:
+
+```bash
+kubectl get endpointslice -n todoapp -l kubernetes.io/service-name=todolist-service -o wide
+```
+
+The output should include the IP addresses of both application Pods.
+
+## 5. Test the application using Service port-forward
+
+Run:
 
 ```bash
 kubectl port-forward service/todolist-service 8086:80 -n todoapp
 ```
 
-Keep the terminal open and visit:
+Keep the terminal running and open the application in your browser:
 
-- http://localhost:8086/ — ToDo application
-- http://localhost:8086/api/ — application API
+http://localhost:8086/
 
-Alternatively, in another terminal:
+You can also access the API:
+
+http://localhost:8086/api/
+
+Alternatively, use curl from another terminal:
 
 ```bash
 curl -i http://localhost:8086/
 ```
 
-Here, `8086` is the local port and `80` is the Service port. Kubernetes resolves the Service to a selected Pod and forwards to its target port `8080`.
+The local port 8086 is forwarded to Service port 80, which maps to the application port 8080.
 
-Stop port-forwarding with `Ctrl+C`. Service port-forward selects one Pod for the session; it is not a test of load balancing across both Pods.
+Press Ctrl+C to stop port-forwarding.
 
-## 4. Access the application using the NodePort Service
+Note: Service port-forward selects one Pod for the session and does not demonstrate load balancing between multiple Pods.
 
-The `todoapp-service` NodePort Service exposes the application on port `30008`.
+## 6. Access the application using NodePort
+
+The NodePort Service exposes the application on port 30008.
 
 For Docker Desktop, open:
 
-- http://localhost:30008/ — ToDo application
-- http://localhost:30008/api/ — application API
+http://localhost:30008/
 
-No `kubectl port-forward` is required. You can also test with:
+API endpoint:
+
+http://localhost:30008/api/
+
+Alternatively, run:
 
 ```bash
 curl -i http://localhost:30008/
 ```
 
-For another Kubernetes environment, find a reachable node address:
+No port-forward command is required.
+
+For another Kubernetes environment, retrieve the node IP address:
 
 ```bash
 kubectl get nodes -o wide
 ```
 
-Use `http://<NodeIP>:30008/`, provided your network and firewall allow access to that node port.
+Access the application using:
 
-## 5. Troubleshooting
+```text
+http://<NodeIP>:30008/
+```
 
-If the application is not accessible, check Pod readiness, Service selectors, and available endpoints:
+The node must be reachable from your local machine, and the network must allow access to the NodePort.
+
+## 7. Troubleshooting
+
+Check the status of all Pods and Services:
 
 ```bash
 kubectl get pods,svc -n todoapp
+```
+
+Inspect application Pods:
+
+```bash
 kubectl describe pod todoapp -n todoapp
 kubectl describe pod todoapp-1 -n todoapp
-kubectl describe service todolist-service -n todoapp
-kubectl describe service todoapp-service -n todoapp
+```
+
+Check application logs:
+
+```bash
 kubectl logs todoapp -n todoapp
 kubectl logs todoapp-1 -n todoapp
 ```
 
-Both application Pods should be ready, and both Services should select Pods with `app: todolist`.
+Inspect Services:
 
-**Note:** this learning project uses SQLite inside each container. The two Pods do not share application data. Use the landing page or read-only requests to test Service connectivity; a production application with multiple replicas should use a shared database and appropriate persistence.
+```bash
+kubectl describe service todolist-service -n todoapp
+kubectl describe service todoapp-service -n todoapp
+```
+
+If the BusyBox Pod already exists with a different configuration, recreate it:
+
+```bash
+kubectl delete pod busybox -n todoapp
+kubectl apply -f .infrastructure/busybox.yml
+```
+
+If the application Pod startup command was changed, recreate both application Pods:
+
+```bash
+kubectl delete pod todoapp todoapp-1 -n todoapp
+kubectl apply -f .infrastructure/todoapp-pod.yml
+```
+
+Verify that both Pods are running and ready before testing the Services again.
+
+Note: This learning application uses SQLite inside each container. The two Pods do not share application data. A production application should use a shared database and appropriate persistent storage.

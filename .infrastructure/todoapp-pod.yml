@@ -9,6 +9,7 @@ spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8080"]
     env:
     - name: PYTHONUNBUFFERED
       value: "1"
@@ -38,6 +39,7 @@ spec:
   containers:
   - name: todoapp
     image: ikulyk404/todoapp:3.0.0
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8080"]
     env:
     - name: PYTHONUNBUFFERED
       value: "1"
