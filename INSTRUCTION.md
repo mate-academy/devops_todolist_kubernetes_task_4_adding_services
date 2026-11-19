@@ -9,8 +9,10 @@ kubectl apply -f .infrastructure/
 
 ## 1. ClusterIP from busybox
 
+The `busybox` pod is created from `.infrastructure/busybox.yml`.
+
 ```
-kubectl exec -it busybox -n todoapp -- curl http://todoapp-clusterip.todoapp.svc.cluster.local/api/ready
+kubectl exec -it busybox -n todoapp -- wget -qO- http://todoapp-clusterip.todoapp.svc.cluster.local/api/ready
 ```
 
 ## 2. port-forward
